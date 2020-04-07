@@ -7,6 +7,5 @@ services:
     volumes:
       - .~/Documents/config/crawler.ini:./config.ini
       - .~/Documents/files/backup.csv:./backup.csv
-    networks: 
-    - host
+    network-mode: "bridge"
     #user: www-data
