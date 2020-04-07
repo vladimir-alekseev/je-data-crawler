@@ -8,7 +8,7 @@ import mysql.connector
 from mysql.connector import errorcode
 from mysql.connector.connection import MySQLConnection, MySQLCursor
 
-from ..data_objects import Vacancy
+from data_crawler.data_objects import Vacancy
 
 
 class Engine():

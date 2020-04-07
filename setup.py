@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from data_crawler.version import version
 
 with open("README.md", "r") as file_handler:
     long_description = file_handler.read()
@@ -6,10 +7,10 @@ with open("README.md", "r") as file_handler:
 setup(
     name="je-data-crawler",
     description="A data crawler for Jobs Explorer",
-    version=__import__('data_crawler').__version__,
+    version=version,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/vladimir-alekseev/je_data_crawler",
+    url="https://github.com/vladimir-alekseev/je-data-crawler",
     author="Vladimir Alekseev",
     author_email="vladimir.alekseev@gmail.com",
     license="MIT",

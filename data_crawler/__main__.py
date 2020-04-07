@@ -4,9 +4,9 @@ import logging
 import sys
 from typing import Any, Collection, Mapping
 
-from . import __version__
-from .data_collection.fetcher import Fetcher
-from .data_storage.writer import Writer
+from data_crawler.version import version
+from data_crawler.data_collection.fetcher import Fetcher
+from data_crawler.data_storage.writer import Writer
 
 
 def main() -> None:
@@ -17,7 +17,7 @@ def main() -> None:
     parser.add_argument("-c", "--config", type=str, nargs=1,
                         help="config file path (default: crawler.ini)", default="crawler.ini")
     parser.add_argument("-V", "--version", action="version",
-                        version=f"{parser.prog} {__version__}")
+                        version=f"{parser.prog} {version}")
     parser.add_argument("-v", "--verbose", action="store_true", help="show debug logs")
 
     args = parser.parse_args()

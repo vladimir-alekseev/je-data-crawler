@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  crawler:
+    container_name: crawler
+    image: vladimiralekseev/je-data-crawler:latest
+    volumes:
+      - .~/Documents/config/crawler.ini:./config.ini
+      - .~/Documents/files/backup.csv:./backup.csv
+    networks: 
+    - host
+    #user: www-data

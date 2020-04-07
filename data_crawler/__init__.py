@@ -1,1 +1,2 @@
-__version__ = "2020.4.1"
+from data_crawler import version
+__version__ = version

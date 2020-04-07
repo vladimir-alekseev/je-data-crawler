@@ -4,8 +4,8 @@ import logging
 import sys
 from typing import Collection, Mapping
 
-from ..data_objects import Vacancy
-from .data_sources import DataSource
+from data_crawler.data_objects import Vacancy
+from data_crawler.data_collection.data_sources import DataSource
 
 
 class Fetcher(object):
@@ -29,7 +29,7 @@ class Fetcher(object):
         """
         if data_source_name in self.VALID_DATA_SOURCES:
             ValidDataSourceClass = getattr(
-                importlib.import_module(".data_collection.data_sources", package="data_crawler"),
+                importlib.import_module("data_crawler.data_collection.data_sources"),
                 data_source_name)
             self._data_source = ValidDataSourceClass(config)
         else:

@@ -11,8 +11,8 @@ from typing import Any, Collection, List, Mapping, Sequence, Tuple
 
 import requests
 
-from ..data_objects import Vacancy
-from .parsers import VacancyDescriptionParser
+from data_crawler.data_objects import Vacancy
+from data_crawler.data_collection.parsers import VacancyDescriptionParser
 
 
 class DataSource():

@@ -4,8 +4,8 @@ import logging
 import sys
 from typing import Collection, Mapping
 
-from ..data_objects import Vacancy
-from .engines import Engine
+from data_crawler.data_objects import Vacancy
+from data_crawler.data_storage.engines import Engine
 
 
 class Writer(object):
@@ -33,7 +33,7 @@ class Writer(object):
         """
         if engine_name in self.VALID_ENGINES:
             ValidEngineClass = getattr(
-                importlib.import_module(".data_storage.engines", package="data_crawler"),
+                importlib.import_module("data_crawler.data_storage.engines"),
                 engine_name)
             self._engine = ValidEngineClass(config)
         else:
