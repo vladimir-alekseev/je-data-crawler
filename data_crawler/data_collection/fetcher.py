@@ -45,6 +45,8 @@ class Fetcher(object):
             logging.error(str(err))
             sys.exit()
 
+        fetched_data: Collection[Vacancy] = None
+        
         try:
             fetched_data = self._data_source.collect_data()
         except Exception as err:

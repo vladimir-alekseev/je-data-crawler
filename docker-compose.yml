@@ -1,11 +1,12 @@
-version: "3.7"
+version: "3"
 
 services:
   crawler:
     container_name: crawler
     image: vladimiralekseev/je-data-crawler:latest
     volumes:
-      - .~/Documents/config/crawler.ini:./config.ini
-      - .~/Documents/files/backup.csv:./backup.csv
+      - ~/Documents/config/crawler.ini:/config.ini
+      - ~/Documents/files/backup.csv:/backup.csv
     network-mode: "bridge"
     #user: www-data
+    restart: on-failure

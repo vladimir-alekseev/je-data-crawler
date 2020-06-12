@@ -36,7 +36,7 @@ Use `-c` argument for custom config file path:
 
 Docker-friendly:
 
-    docker run -v /path/to/crawler.ini:./config.ini -v /path/to/backup.csv:./backup.csv vladimiralekseev/je-data-crawler
+    docker run -v /path/to/crawler.ini:/config.ini -v /path/to/backup.csv:/backup.csv vladimiralekseev/je-data-crawler
 Also check out [docker-compose.yml](https://github.com/vladimir-alekseev/je-data-crawler/tree/master/docker-compose.yml) if you really fancy.
 ## Questions?
 E-mail: vladimir.alekseev@gmail.com  

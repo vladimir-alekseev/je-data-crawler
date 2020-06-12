@@ -14,8 +14,10 @@ def main() -> None:
         description="Collect data for Jobs Explorer from various sources.",
         prog="data_crawler"
     )
-    parser.add_argument("-c", "--config", type=str, nargs=1,
+    parser.add_argument("-c", "--config-path", type=str, nargs=1,
                         help="config file path (default: crawler.ini)", default="crawler.ini")
+    parser.add_argument("-o", "--override-config", nargs=3, metavar=('SECTION','OPTION','VALUE'),
+                        help="override any config value")
     parser.add_argument("-V", "--version", action="version",
                         version=f"{parser.prog} {version}")
     parser.add_argument("-v", "--verbose", action="store_true", help="show debug logs")
@@ -32,12 +34,17 @@ def main() -> None:
 
     # Initialize config settings
     config = configparser.ConfigParser()
-    config_path = args.config
-    config.read(config_path)
+    config.read(args.config_path)
 
-    if len(config) < 2:
+    MIN_CONFIG_SECTION_COUNT: int = 2
+    if len(config) < MIN_CONFIG_SECTION_COUNT:
         logging.error(f"Error reading config file {args.config[0]}")
         sys.exit()
+
+    if args.override_config:
+        section_to_override, option_to_override, value_to_override = args.override_config
+        if config[section_to_override]:
+            config[section_to_override][option_to_override] = value_to_override
 
     data_source_name = config["DEFAULT"]["DATA_SOURCE"]
     writer_engine_name = config["DEFAULT"]["WRITER_ENGINE"]

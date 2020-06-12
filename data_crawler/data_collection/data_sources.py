@@ -166,7 +166,7 @@ class HH_API(DataSource):
                 period_duration {int} -- Search period
 
             Keyword Arguments:
-                period_offset {int} -- Days offset into the past from today (used for subqueries) (default: {0})
+                period_offset {int} -- Days offset into the past from default period end date (used for subqueries) (default: {0})
                 subrequest {bool} -- Whether API results limitation check is needed (default: {False})
 
             Returns:
@@ -177,12 +177,14 @@ class HH_API(DataSource):
 
             # Determine API query parameters based on provided settings
             current_response_page: int = 0
+            end_date: date = date.today() - timedelta(days=self._default_period_offset_days+period_offset)
+            
             search_params: Mapping[str, Any] = {
                 "specialization": self._specialization_id,
                 "area": self._area_id,
                 "per_page": self._per_page,
-                "date_from": (date.today() - timedelta(days=period_offset+self._default_period_offset_days) - timedelta(days=period_duration-1)).isoformat(),
-                "date_to":   (date.today() - timedelta(days=period_offset+self._default_period_offset_days)).isoformat(),
+                "date_from": (end_date - timedelta(days=period_duration-1)).isoformat(),
+                "date_to":   end_date.isoformat(),
                 "page": current_response_page,
             }
 
@@ -217,13 +219,10 @@ class HH_API(DataSource):
 
         # Divide into subrequests if single query results count exceeds API limitation
         if total_vacancies_found > self.MAX_RESULTS_PER_SEARCH:
-            subrequests_needed: int
-
+            subrequests_needed: int = self._search_period_days // self._min_search_period_days
             # If subrequests do not cover initial search period in full, add 1 additional subrequest
             if self._search_period_days % self._min_search_period_days:
-                subrequests_needed = self._search_period_days // self._min_search_period_days + 1
-            else:
-                subrequests_needed = self._search_period_days // self._min_search_period_days
+                subrequests_needed += 1
 
             logging.info(
                 f"Splitting search into {subrequests_needed} subrequests")
@@ -310,9 +309,6 @@ class HH_API(DataSource):
             params {Mapping[str, Any]} -- API query parameters (default: {None})
             headers {Mapping[str, Any]} -- API query headers (default: {None})
 
-        Raises:
-            RuntimeError: When any error occurs during request.
-
         Returns:
             Collection[Any] -- Parsed data from JSON response.
         """
@@ -321,22 +317,22 @@ class HH_API(DataSource):
         except requests.ConnectionError as connection_err:
             logging.error(
                 f"Network error during API request: {connection_err}")
-            raise RuntimeError from connection_err
+            raise
         except requests.Timeout as timeout_err:
             logging.error(f"API request timed out: {timeout_err}")
-            raise RuntimeError from timeout_err
+            raise
         except requests.exceptions.RequestException as requests_err:
             logging.error(f"API request failed: {requests_err}")
-            raise RuntimeError from requests_err
+            raise
         except Exception as err:
             logging.error(f"API connection failed: {err}")
-            raise RuntimeError from err
+            raise
 
         try:
             response.raise_for_status()
         except requests.HTTPError as err:
             logging.error(f"Unexpected HTTP response: {err}")
-            raise RuntimeError from err
+            raise
         else:
             extracted_data = response.json()
 

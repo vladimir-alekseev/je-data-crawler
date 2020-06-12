@@ -170,7 +170,7 @@ class MariaDBOutput(Engine):
                 logging.error(f"Database {self._db} does not exist")
             else:
                 logging.error(err)
-            raise RuntimeError from err
+            raise
         else:
             logging.info(
                 f"Connected to MariaDB on {self._host} as {self._user}")
