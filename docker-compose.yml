@@ -7,6 +7,6 @@ services:
     volumes:
       - ~/Documents/config/crawler.ini:/config.ini
       - ~/Documents/files/backup.csv:/backup.csv
-    network-mode: "bridge"
+    network_mode: "bridge"
     #user: www-data
     restart: on-failure
