@@ -179,7 +179,7 @@ class MariaDBOutput(Engine):
         """Saves data batch to a table in MariaDB. Only saves fields explicitly defined in Vacancy data object."""
         cursor: MySQLCursor = self._connection.cursor()
 
-        add_vacancy_statement_template: str = "INSERT INTO {table_name} ({fields}) VALUES ({value_formats});"
+        add_vacancy_statement_template: str = "INSERT IGNORE INTO {table_name} ({fields}) VALUES ({value_formats});"
         add_vacancy_statement = add_vacancy_statement_template.format(
             table_name=self._table,
             fields=", ".join(self.VACANCY_FIELDS),

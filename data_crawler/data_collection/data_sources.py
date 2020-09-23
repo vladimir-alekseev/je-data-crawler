@@ -271,8 +271,8 @@ class HH_API(DataSource):
                 "date_published": datetime.strptime(
                     vacancy_data["published_at"], self.DATETIME_FORMAT).date(),
                 "employer_name": vacancy_data["employer"]["name"] if vacancy_data["employer"] else None,
-                # Miscellaneous fields
                 "id_source": vacancy_data["id"],
+                # Miscellaneous fields
                 "salary_range_lower": vacancy_data["salary"]["from"] if vacancy_data[
                     "salary"] and ("from" in vacancy_data["salary"]) else None,  # Sometimes comes empty
                 "salary_range_upper": vacancy_data["salary"]["to"] if vacancy_data["salary"] and ("to" in vacancy_data["salary"]) else None,

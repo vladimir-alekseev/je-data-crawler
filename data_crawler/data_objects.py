@@ -18,8 +18,8 @@ class Vacancy():
     description: str = field(repr=False)
     date_published: date
     employer_name: str
+    id_source: str # May not be unique across sources
     # Miscellaneous fields
-    id_source: str = field(repr=False) # May not be unique across sources
     salary_range_lower: int = field(repr=False)
     salary_range_upper: int = field(repr=False)
     salary_currency: str = field(repr=False)
